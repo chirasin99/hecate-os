@@ -1,14 +1,16 @@
 # HecateOS NVIDIA GPU Support Packages
 # NVIDIA drivers and CUDA toolkit for AI/ML workloads
+#
+# NOTE: For latest drivers (590+), add ppa:graphics-drivers/ppa
+# The 570 series is the current production branch as of Jan 2026
 
-# NVIDIA Driver (550 is latest stable for RTX 4090)
-nvidia-driver-550
-nvidia-dkms-550
-nvidia-utils-550
+# NVIDIA Driver (570 is production branch, supports RTX 40 series)
+nvidia-driver-570
+nvidia-dkms-570
+nvidia-utils-570
 nvidia-settings
 nvidia-modprobe
 nvidia-prime
-nvidia-opencl-icd-550
 nvidia-cuda-toolkit
 nvidia-cuda-dev
 
@@ -18,12 +20,10 @@ nvidia-container-runtime
 nvidia-docker2
 
 # Libraries
-libnvidia-compute-550
-libnvidia-decode-550
-libnvidia-encode-550
-libnvidia-fbc1-550
-libnvidia-gl-550
-libcuda1-550
+libnvidia-compute-570
+libnvidia-decode-570
+libnvidia-encode-570
+libnvidia-gl-570
 libcudnn8
 libcudnn8-dev
 libnccl2
@@ -36,7 +36,6 @@ clinfo
 
 # Vulkan
 vulkan-tools
-vulkan-utils
 libvulkan1
 libvulkan-dev
 
@@ -47,6 +46,6 @@ mesa-vdpau-drivers
 vainfo
 
 # GPU monitoring tools
-nvidia-smi
+# nvidia-smi is included in nvidia-utils-570, not a separate package
 gpustat
 nvitop
