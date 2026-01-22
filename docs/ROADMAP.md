@@ -1,6 +1,6 @@
 # HecateOS Roadmap & Reality Check
 
-## Current Reality (v1.0)
+## Current Reality (v0.1.0)
 
 ### What Actually Works Now
 - ✅ **Intel 12th/13th gen optimization** - Fully tested configs
@@ -14,7 +14,7 @@
 - ⚠️ **Benchmarks** - All numbers are estimates until real testing
 - ⚠️ **Welcome App** - Written but needs real-world testing
 
-## Honest Scope for v1.0
+## Honest Scope for v0.1.0
 
 **No Target Hardware** - HecateOS adapts to what you have.
 
@@ -54,14 +54,19 @@ sudo apt install code
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-## Version 1.0 Goals (Realistic)
+## Version 0.1.0 Goals (Alpha)
 1. **Working ISO** that boots and installs
 2. **Hardware detection** that doesn't break
 3. **NVIDIA optimization** that actually improves performance
 4. **Dual-boot** that doesn't destroy Windows
 5. **Documentation** that's honest about limitations
 
-## Version 2.0 Goals (Community-Driven)
+## Version 0.2.0 Goals (Beta)
+- [ ] Package list cleanup (remove non-existent packages)
+- [ ] All 6 editions tested
+- [ ] CI/CD fully working
+
+## Version 1.0.0 Goals (Community-Driven)
 - [ ] Real AMD support (needs AMD testers)
 - [ ] Laptop optimizations (battery, hybrid graphics)
 - [ ] More GPU support (Intel Arc, older NVIDIA)
@@ -90,7 +95,8 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 
 This started as "I want my workstation optimized" and grew into something bigger. Let's be honest about what it is:
 
-- **v1.0**: A highly optimized ISO for high-end Intel/NVIDIA workstations
-- **v2.0+**: Community-driven expansion to more hardware
+- **v0.1.0**: First alpha - framework complete, tested on one machine
+- **v0.x**: Beta releases with community testing
+- **v1.0.0**: First stable release after community validation
 
 The code is structured to support multiple configurations, but only one is actually tested. Community contributions will make it real for other hardware.
