@@ -24,6 +24,9 @@ lb config \
     --iso-preparer "live-build" \
     --memtest none \
     --bootappend-live "boot=casper quiet splash intel_pstate=active intel_iommu=on iommu=pt nvme_core.default_ps_max_latency_us=0 pcie_aspm=off processor.max_cstate=1 intel_idle.max_cstate=0 mitigations=off" \
+    --security true \
+    --updates true \
+    --backports false \
     --parent-mirror-bootstrap "http://archive.ubuntu.com/ubuntu/" \
     --parent-mirror-chroot "http://archive.ubuntu.com/ubuntu/" \
     --parent-mirror-chroot-security "http://security.ubuntu.com/ubuntu/" \
