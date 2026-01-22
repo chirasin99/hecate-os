@@ -1,21 +1,25 @@
-# HecateOS 🌙
+# HecateOS
+
+**An adaptive, performance-first Linux distribution that automatically optimizes for your hardware.**
 
 <div align="center">
-  <h3>⚡ High-Performance Linux Distribution for AI/ML Workstations ⚡</h3>
-  <p><i>"Where raw power meets divine optimization"</i></p>
   
+  [![Version](https://img.shields.io/github/v/release/Arakiss/hecate-os?style=for-the-badge)](https://github.com/Arakiss/hecate-os/releases)
   [![Based on Ubuntu](https://img.shields.io/badge/Based%20on-Ubuntu%2024.04%20LTS-E95420?style=for-the-badge&logo=ubuntu)](https://ubuntu.com)
-  [![NVIDIA Ready](https://img.shields.io/badge/NVIDIA-RTX%20Ready-76B900?style=for-the-badge&logo=nvidia)](https://nvidia.com)
   [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
+  [![Semantic Versioning](https://img.shields.io/badge/semver-2.0.0-green?style=for-the-badge)](https://semver.org)
+  
 </div>
 
 ---
 
-## 🔥 What is HecateOS?
+## What is HecateOS?
 
-HecateOS is an **adaptive** Linux distribution built on Ubuntu 24.04 LTS that automatically detects and optimizes for YOUR specific hardware, whatever it is.
+HecateOS is a performance-optimized Linux distribution based on Ubuntu 24.04 LTS.
 
-### ✨ Key Features
+Unlike traditional distributions with one-size-fits-all configurations, HecateOS detects your CPU, GPU, RAM, and storage, then automatically applies optimal settings for maximum performance. Designed for AI/ML engineers, developers, and power users who want their hardware to run at peak efficiency without manual tuning.
+
+## Key Differentiators
 
 - **🚀 Extreme Performance**: Pre-configured kernel optimizations for Intel 13th gen+ and NVIDIA RTX 40 series
 - **🎮 Native NVIDIA Support**: RTX 4090 optimized with CUDA, persistence mode, and IRQ affinity tuning
@@ -164,7 +168,7 @@ HecateOS is released under the MIT License. See [LICENSE](LICENSE) for details.
 
 <div align="center">
   <p><b>HecateOS</b> - Unleash the beast within your machine</p>
-  <p>Made with 🖤 by the HecateOS Team</p>
+  <p>Made with 🖤 by Arakiss</p>
 </div>
 
 ---
