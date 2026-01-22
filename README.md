@@ -50,7 +50,7 @@ Unlike generic Linux distributions that try to work "okay" on everything, Hecate
 
 ### Download ISO
 ```bash
-wget https://github.com/[your-username]/hecate-os/releases/latest/download/hecate-os-24.04-amd64.iso
+wget https://github.com/Arakiss/hecate-os/releases/latest/download/hecate-os-24.04-amd64.iso
 ```
 
 ### Create Bootable USB
@@ -102,7 +102,7 @@ sudo apt install -y live-build debootstrap squashfs-tools xorriso
 ### Build Process
 ```bash
 # Clone repository
-git clone https://github.com/[your-username]/hecate-os.git
+git clone https://github.com/Arakiss/hecate-os.git
 cd hecate-os
 
 # Run build script
@@ -154,11 +154,11 @@ HecateOS is released under the MIT License. See [LICENSE](LICENSE) for details.
 - **Website**: [https://hecate-os.dev](https://hecate-os.dev) (coming soon)
 - **Documentation**: [docs/](docs/)
 - **Discord**: [Join our community](https://discord.gg/hecate-os)
-- **Issues**: [GitHub Issues](https://github.com/[your-username]/hecate-os/issues)
+- **Issues**: [GitHub Issues](https://github.com/Arakiss/hecate-os/issues)
 
 ## 🌟 Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=your-username/hecate-os&type=Date)](https://star-history.com/#your-username/hecate-os&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=Arakiss/hecate-os&type=Date)](https://star-history.com/#Arakiss/hecate-os&Date)
 
 ---
 
