@@ -30,6 +30,19 @@ env:
   DEBIAN_FRONTEND: noninteractive
 
 jobs:
+  lint:
+    name: Lint Shell Scripts
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Run ShellCheck
+      uses: ludeeus/action-shellcheck@master
+      with:
+        scandir: './scripts'
+        severity: warning
+
   prepare:
     name: Prepare Build Matrix
     runs-on: ubuntu-latest
@@ -48,7 +61,7 @@ jobs:
   build:
     name: Build ${{ matrix.edition }} Edition
     runs-on: ubuntu-22.04
-    needs: prepare
+    needs: [lint, prepare]
     strategy:
       matrix:
         edition: ${{ fromJson(needs.prepare.outputs.matrix) }}
