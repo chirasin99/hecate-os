@@ -17,9 +17,17 @@ RESET='\033[0m'
 
 # Variables
 BUILD_DIR=$(dirname "$(readlink -f "$0")")
-ISO_NAME="hecate-os-24.04-amd64"
 BUILD_DATE=$(date +%Y%m%d)
-VERSION="24.04"
+
+# Read version from VERSION file (single source of truth)
+if [ -f "$BUILD_DIR/VERSION" ]; then
+    VERSION=$(cat "$BUILD_DIR/VERSION" | tr -d '[:space:]')
+else
+    VERSION="0.1.0"
+    echo "Warning: VERSION file not found, using default $VERSION"
+fi
+
+ISO_NAME="hecate-os-${VERSION}-amd64"
 CODENAME="crossroads"
 
 # ASCII Art
