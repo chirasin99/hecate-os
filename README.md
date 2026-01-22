@@ -172,7 +172,7 @@ HecateOS is released under the MIT License. See [LICENSE](LICENSE) for details.
 <details>
 <summary><b>Why "HecateOS"?</b></summary>
 
-Named after my cat Hecate, who likes to sit at the crossroads between my keyboard and monitor while I code. 
+Named after my cat Hecate, who I named after the Greek goddess of crossroads and magic. She likes to sit at the crossroads between my keyboard and monitor while I code.
 
-Coincidentally, Hecate is also the Greek goddess of crossroads and thresholds, which fits perfectly for a distro that lives between Windows and Linux in dual-boot setups. But honestly? It's just my cat's name. 🐱
+The name fits perfectly - a distro that lives at the crossroads between Windows and Linux, between raw hardware and optimized software. Plus, my cat approves. 🐱
 </details>
