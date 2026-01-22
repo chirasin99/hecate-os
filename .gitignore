@@ -61,3 +61,8 @@ secrets/
 !branding/.gitkeep
 !docs/.gitkeep
 !scripts/.gitkeep
+
+# Development automation
+.claude/
+PROMPT.md
+IMPLEMENTATION_PLAN.md
