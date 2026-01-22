@@ -1,50 +1,24 @@
-# HecateOS Development Packages
-# Essential development tools only - users install their preferred stacks
+# HecateOS Development Essentials
+# Minimal tools for ML/AI development
 
-# Python base
+# Python (essential for ML/AI)
 python3
 python3-pip
 python3-venv
 python-is-python3
-pipx
 
-# C/C++ essentials
+# C/C++ (needed for compiling some pip packages)
 gcc
 g++
-gdb
 cmake
 make
-pkg-config
-clang
 
-# Docker
+# Docker (essential for ML containers)
 docker.io
-docker-compose
 containerd
 
-# Virtualization
-qemu-system-x86
-qemu-kvm
-libvirt-daemon-system
-libvirt-clients
-virt-manager
-
-# Database clients
-postgresql-client
-redis-tools
-sqlite3
-
-# Git tools
+# Git
 gh
-tig
 
-# Code quality
-shellcheck
-
-# Build tools
-ninja-build
-
-# NOTE: For latest Node.js, Go, Rust - install from official sources:
-# - Node.js: https://nodejs.org or nvm
-# - Go: https://go.dev/dl/
-# - Rust: https://rustup.rs
+# NOTE: Users install their stack via pip:
+# pip install torch tensorflow jupyterlab

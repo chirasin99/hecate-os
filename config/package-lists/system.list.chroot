@@ -1,81 +1,56 @@
-# HecateOS Core System Packages
-# Essential system tools and utilities
+# HecateOS Core System
+# Minimal base for ML/AI workstations
 
 # Kernel and firmware
 linux-generic-hwe-24.04
-linux-tools-generic-hwe-24.04
 linux-headers-generic-hwe-24.04
 intel-microcode
 amd64-microcode
 linux-firmware
 
-# Core utilities
+# Core system
 ubuntu-minimal
-ubuntu-standard
 build-essential
 software-properties-common
-apt-transport-https
 ca-certificates
 gnupg
-lsb-release
 dkms
 
-# System tools
+# Essential tools
 git
 curl
 wget
 htop
 btop
-nvtop
-iotop
 nvme-cli
-smartmontools
 lm-sensors
-sysstat
-net-tools
 openssh-server
 openssh-client
 
-# Terminal and shell
+# Shell
 zsh
 tmux
 neovim
-vim
-nano
 bash-completion
 
-# File management
+# File tools
 tree
-ncdu
-duf
 fd-find
 ripgrep
-bat
-eza
 fzf
 jq
 
 # Compression
 zip
 unzip
-p7zip-full
 xz-utils
 zstd
 
 # Networking
 network-manager
-wireless-tools
-wpasupplicant
 nmap
-traceroute
-mtr
 iperf3
 netcat-openbsd
-tcpdump
-
-# System monitoring
-lsof
-strace
 
 # Time sync
 chrony

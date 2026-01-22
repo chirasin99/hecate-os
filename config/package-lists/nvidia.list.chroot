@@ -1,27 +1,7 @@
-# HecateOS NVIDIA GPU Support
-# Basic NVIDIA driver support from Ubuntu repos
-#
-# For full GPU setup with container toolkit, run: sudo hecate driver install
+# HecateOS NVIDIA Support
+# Basic driver from Ubuntu repos
+# For full setup run: sudo hecate driver install
 
-# NVIDIA Driver (570 series - current Ubuntu LTS)
 nvidia-driver-570
 nvidia-utils-570
-nvidia-settings
-
-# CUDA toolkit (basic)
 nvidia-cuda-toolkit
-
-# OpenCL
-ocl-icd-libopencl1
-clinfo
-
-# Vulkan
-vulkan-tools
-libvulkan1
-
-# Video acceleration
-vainfo
-
-# NOTE: Additional packages installed post-install by hecate driver:
-# - nvidia-container-toolkit (Docker GPU)
-# - libcudnn (Deep Learning)

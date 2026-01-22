@@ -1,48 +1,20 @@
-# HecateOS Performance Optimization Packages
-# Tools for system tuning and performance monitoring
+# HecateOS Performance Tools
+# Essential for tuning ML/AI workstations
 
-# ZRAM (memory compression)
+# Memory management
 zram-tools
 
-# CPU management
+# CPU tuning
 cpufrequtils
 irqbalance
 tuned
-tuned-utils
-thermald
-powertop
 
-# I/O optimization
-hdparm
+# Storage
 nvme-cli
-fio
-ioping
+hdparm
 
-# CPU/Memory tools
-numactl
-stress-ng
-sysbench
-
-# Kernel tuning helpers
-sysfsutils
-procps
-util-linux
-
-# Performance monitoring
+# Monitoring
 linux-tools-common
 linux-tools-generic
-cpuid
-msr-tools
-
-# Process management
-schedtool
-cgroup-tools
-
-# Networking performance
-ethtool
-iftop
-bmon
-vnstat
-
-# Latency testing
-rt-tests
+numactl
+stress-ng
