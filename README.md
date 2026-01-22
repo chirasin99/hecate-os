@@ -40,19 +40,6 @@ On first boot, HecateOS runs `hardware-detector.sh` which:
 
 **Kernel** — `mitigations=off` for ~10% perf gain (configurable), `intel_pstate=active`, IOMMU, PCIe ASPM off
 
-## Editions
-
-Six ISO variants, same detection system, different package sets:
-
-| Edition | Target | Packages | Size |
-|---------|--------|----------|------|
-| **Ultimate** | AI/ML workstations | Full CUDA stack, scientific Python | ~6GB |
-| **Workstation** | Professional use | NVIDIA drivers, Docker, dev tools | ~4GB |
-| **Gaming** | Gaming/streaming | Vulkan, low-latency kernel tweaks | ~3.5GB |
-| **Developer** | Software dev | Languages, containers, databases | ~3GB |
-| **Lite** | Older hardware | Core system, basic tools | ~2GB |
-| **Server** | Headless | No GUI, containers, monitoring | ~1.5GB |
-
 ## Tested Hardware
 
 Actually tested on:
@@ -74,16 +61,14 @@ Should work on (detection logic exists but untested):
 ```
 hecate-os/
 ├── scripts/
-│   ├── hardware-detector.sh    # 460 lines — detects and profiles hardware
-│   ├── apply-optimizations.sh  # 270 lines — applies profile-specific tuning
+│   ├── hardware-detector.sh    # Detects and profiles hardware
+│   ├── apply-optimizations.sh  # Applies profile-specific tuning
 │   ├── hecate-driver-installer.sh  # GPU driver selection
 │   └── hecate-benchmark.sh     # Performance testing
 ├── config/
-│   ├── package-lists/          # Packages per edition
+│   ├── package-lists/          # Packages to install
 │   ├── includes.chroot/        # System configs (sysctl, GRUB, docker)
-│   └── hooks/                   # Build-time scripts
-├── editions/
-│   └── build-edition.sh        # Build specific edition ISO
+│   └── hooks/                  # Build-time scripts
 └── build.sh                    # Main build script
 ```
 
@@ -96,8 +81,7 @@ sudo apt install live-build debootstrap squashfs-tools xorriso
 # Clone and build
 git clone https://github.com/Arakiss/hecate-os.git
 cd hecate-os
-sudo ./build.sh              # Builds Ultimate edition
-sudo ./editions/build-edition.sh developer  # Builds specific edition
+sudo ./build.sh
 ```
 
 ISO output: `iso/hecate-os-0.1.0-amd64.iso`
