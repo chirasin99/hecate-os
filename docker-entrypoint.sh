@@ -75,7 +75,7 @@ case "${1:-build}" in
 esac
 
 # Show output location
-if [ -f /build/iso/*.iso ]; then
+if ls /build/iso/*.iso 1>/dev/null 2>&1; then
     echo ""
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
     echo -e "${GREEN}Build complete! ISO available in ./iso/${RESET}"
