@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# HecateOS Dashboard
 
-## Getting Started
+Real-time system monitoring dashboard for HecateOS.
 
-First, run the development server:
+## Overview
+
+Web-based dashboard that connects to `hecate-monitor` service via WebSocket to display real-time system metrics including CPU, memory, GPU, disk, and network usage.
+
+## Features
+
+- **Real-time Updates** - WebSocket connection for live metrics streaming
+- **Responsive Design** - Works on desktop and mobile devices
+- **GPU Monitoring** - NVIDIA GPU temperature, power, and VRAM usage
+- **Process Tracking** - Top CPU and memory consuming processes
+- **Network Activity** - Per-interface bandwidth monitoring
+- **Disk Usage** - Storage utilization and I/O statistics
+
+## Prerequisites
+
+- Node.js 18+ or Bun runtime
+- `hecate-monitor` service running on port 9313 (configurable)
+
+## Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Using Bun (recommended)
+bun install
+
+# Or using npm
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Configuration
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copy the environment template:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+cp .env.example .env.local
+```
 
-## Learn More
+Edit `.env.local` to configure:
+- `NEXT_PUBLIC_HECATE_MONITOR_PORT` - Monitor service port (default: 9313)
 
-To learn more about Next.js, take a look at the following resources:
+## Development
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# Start development server
+bun run dev
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Dashboard will be available at http://localhost:3000
+```
 
-## Deploy on Vercel
+## Production Build
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+# Build for production
+bun run build
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Start production server
+bun run start
+```
+
+## Architecture
+
+Built with:
+- **Next.js 14** - React framework with App Router
+- **Shadcn UI** - Component library (base components, not Radix)
+- **Tailwind CSS** - Styling
+- **WebSocket** - Real-time communication with monitor service
+
+## Default Ports
+
+- **3000** - Dashboard web interface (development)
+- **9313** - Monitor service WebSocket connection
+
+## Troubleshooting
+
+### Cannot connect to monitor service
+
+1. Ensure `hecate-monitor` is running:
+   ```bash
+   systemctl status hecate-monitor
+   ```
+
+2. Check the port configuration in `.env.local`
+
+3. Verify firewall allows connection to port 9313
+
+### Build errors with Bun
+
+If you encounter issues with Bun, fallback to npm:
+```bash
+npm install
+npm run dev
+```
+
+## License
+
+MIT - Part of HecateOS project

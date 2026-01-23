@@ -2,6 +2,8 @@
 //! 
 //! Core functionality for hardware detection, profiling, and optimization
 
+pub mod config;
+
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
 use std::fs;

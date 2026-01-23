@@ -98,7 +98,11 @@ export default function SystemDashboard() {
 
     const connect = () => {
       try {
-        ws = new WebSocket(`ws://localhost:3000/ws`);
+        // HecateOS monitoring port: 9313 (mystical number)
+        // Can be overridden via NEXT_PUBLIC_HECATE_MONITOR_PORT env var
+        const port = process.env.NEXT_PUBLIC_HECATE_MONITOR_PORT || '9313';
+        const wsUrl = `ws://localhost:${port}/ws`;
+        ws = new WebSocket(wsUrl);
 
         ws.onopen = () => {
           console.log('Connected to HecateOS Monitor');

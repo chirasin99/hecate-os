@@ -36,7 +36,16 @@ HecateOS automatically detects hardware and applies performance optimizations on
 ### Web Dashboard
 - Next.js application with Shadcn UI
 - Real-time WebSocket connection to monitoring server
-- Accessible at http://localhost:3000
+- Accessible at http://localhost:9313
+
+## Default Ports
+
+HecateOS uses these default ports (all configurable):
+- **9313** - System monitoring (hecate-monitor)
+- **9314** - Package manager API (hecate-pkg) 
+- **9315** - Remote management (future)
+
+> Why 931x? It's our easter egg - 93 (IX in Roman = 9), 13 (mystical), together forming "Hecate's numbers"
 
 ## What Gets Tuned
 

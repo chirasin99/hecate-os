@@ -1,0 +1,31 @@
+[Unit]
+Description=HecateOS System Monitor
+Documentation=https://github.com/Arakiss/hecate-os
+After=network.target
+
+[Service]
+Type=simple
+User=hecate
+Group=hecate
+WorkingDirectory=/usr/local/lib/hecate
+
+# Load port configuration
+EnvironmentFile=-/etc/hecate/ports.conf
+
+# Set default port if not configured
+Environment="HECATE_MONITOR_PORT=9313"
+
+# Start the monitoring service
+ExecStart=/usr/local/bin/hecate-monitor
+Restart=always
+RestartSec=10
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/log/hecate
+
+[Install]
+WantedBy=multi-user.target

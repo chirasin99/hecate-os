@@ -468,10 +468,16 @@ async fn main() {
         .with_state(state);
     
     // Iniciar servidor
-    let addr = SocketAddr::from(([0, 0, 0, 0], 3000));
+    // Default port 9313: 93=IX=9 in Roman, 13=mystical, Together="Hecate's number"
+    let port: u16 = std::env::var("HECATE_MONITOR_PORT")
+        .unwrap_or_else(|_| "9313".to_string())
+        .parse()
+        .unwrap_or(9313);
+    
+    let addr = SocketAddr::from(([0, 0, 0, 0], port));
     info!("Server listening on http://{}", addr);
-    info!("Dashboard: http://localhost:3000");
-    info!("WebSocket: ws://localhost:3000/ws");
+    info!("Dashboard: http://localhost:{}", port);
+    info!("WebSocket: ws://localhost:{}/ws", port);
     
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
