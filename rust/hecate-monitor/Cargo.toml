@@ -1,0 +1,37 @@
+[package]
+name = "hecate-monitor"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Core dependencies
+hecate-core = { path = "../hecate-core" }
+hecate-gpu = { path = "../hecate-gpu" }
+
+# Web server y WebSockets
+axum = { version = "0.7", features = ["ws"] }
+tower = { version = "0.4", features = ["full"] }
+tower-http = { version = "0.5", features = ["cors", "fs"] }
+
+# Async runtime
+tokio = { version = "1.35", features = ["full"] }
+futures = "0.3"
+
+# Serialización
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# System info
+sysinfo = "0.30"
+procfs = "0.16"
+
+# Time handling
+chrono = { version = "0.4", features = ["serde"] }
+
+[[bin]]
+name = "hecate-monitor"
+path = "src/main.rs"

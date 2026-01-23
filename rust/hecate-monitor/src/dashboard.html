@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HecateOS Monitor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .status {
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        
+        .status.connected {
+            background: rgba(76, 175, 80, 0.3);
+            border: 2px solid #4CAF50;
+        }
+        
+        .status.disconnected {
+            background: rgba(244, 67, 54, 0.3);
+            border: 2px solid #f44336;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h2 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+        }
+        
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .metric:last-child {
+            border-bottom: none;
+        }
+        
+        .metric-label {
+            opacity: 0.8;
+        }
+        
+        .metric-value {
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 5px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            transition: width 0.3s;
+        }
+        
+        .progress-fill.warning {
+            background: linear-gradient(90deg, #FF9800, #FFB74D);
+        }
+        
+        .progress-fill.danger {
+            background: linear-gradient(90deg, #f44336, #E57373);
+        }
+        
+        .process-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .process {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            font-size: 0.9em;
+        }
+        
+        .timestamp {
+            text-align: center;
+            opacity: 0.7;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 HecateOS System Monitor</h1>
+        <div id="status" class="status disconnected">Disconnected</div>
+        
+        <div class="grid">
+            <!-- CPU Card -->
+            <div class="card">
+                <h2>CPU</h2>
+                <div class="metric">
+                    <span class="metric-label">Usage</span>
+                    <span class="metric-value" id="cpu-usage">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="cpu-progress" class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Temperature</span>
+                    <span class="metric-value" id="cpu-temp">--°C</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Frequency</span>
+                    <span class="metric-value" id="cpu-freq">0 MHz</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Load Average</span>
+                    <span class="metric-value" id="load-avg">0.0 0.0 0.0</span>
+                </div>
+            </div>
+            
+            <!-- Memory Card -->
+            <div class="card">
+                <h2>Memory</h2>
+                <div class="metric">
+                    <span class="metric-label">Used / Total</span>
+                    <span class="metric-value" id="mem-usage">0 / 0 GB</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="mem-progress" class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Available</span>
+                    <span class="metric-value" id="mem-available">0 GB</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Cache</span>
+                    <span class="metric-value" id="mem-cache">0 GB</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Swap</span>
+                    <span class="metric-value" id="swap-usage">0 / 0 GB</span>
+                </div>
+            </div>
+            
+            <!-- GPU Card (if available) -->
+            <div class="card" id="gpu-card" style="display: none;">
+                <h2>GPU</h2>
+                <div id="gpu-metrics"></div>
+            </div>
+            
+            <!-- Network Card -->
+            <div class="card">
+                <h2>Network</h2>
+                <div class="metric">
+                    <span class="metric-label">Download</span>
+                    <span class="metric-value" id="net-rx">0 MB/s</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Upload</span>
+                    <span class="metric-value" id="net-tx">0 MB/s</span>
+                </div>
+                <div id="net-interfaces"></div>
+            </div>
+            
+            <!-- Disk Card -->
+            <div class="card">
+                <h2>Storage</h2>
+                <div id="disk-metrics"></div>
+            </div>
+            
+            <!-- Process Card -->
+            <div class="card">
+                <h2>Processes</h2>
+                <div class="metric">
+                    <span class="metric-label">Total / Running</span>
+                    <span class="metric-value" id="proc-count">0 / 0</span>
+                </div>
+                <h3 style="margin-top: 15px; font-size: 1em; opacity: 0.8;">Top CPU</h3>
+                <div class="process-list" id="proc-cpu"></div>
+                <h3 style="margin-top: 15px; font-size: 1em; opacity: 0.8;">Top Memory</h3>
+                <div class="process-list" id="proc-mem"></div>
+            </div>
+        </div>
+        
+        <div class="timestamp" id="timestamp">Last update: Never</div>
+    </div>
+    
+    <script>
+        // WebSocket connection
+        let ws = null;
+        let reconnectInterval = null;
+        
+        function connect() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsUrl = `${protocol}//${window.location.host}/ws`;
+            
+            ws = new WebSocket(wsUrl);
+            
+            ws.onopen = () => {
+                console.log('Connected to HecateOS Monitor');
+                document.getElementById('status').textContent = 'Connected';
+                document.getElementById('status').className = 'status connected';
+                
+                if (reconnectInterval) {
+                    clearInterval(reconnectInterval);
+                    reconnectInterval = null;
+                }
+            };
+            
+            ws.onmessage = (event) => {
+                const metrics = JSON.parse(event.data);
+                updateUI(metrics);
+            };
+            
+            ws.onerror = (error) => {
+                console.error('WebSocket error:', error);
+            };
+            
+            ws.onclose = () => {
+                console.log('Disconnected from HecateOS Monitor');
+                document.getElementById('status').textContent = 'Disconnected - Reconnecting...';
+                document.getElementById('status').className = 'status disconnected';
+                
+                // Auto-reconnect
+                if (!reconnectInterval) {
+                    reconnectInterval = setInterval(() => {
+                        console.log('Attempting to reconnect...');
+                        connect();
+                    }, 5000);
+                }
+            };
+        }
+        
+        function updateUI(metrics) {
+            // Update timestamp
+            const date = new Date(metrics.timestamp);
+            document.getElementById('timestamp').textContent = 
+                `Last update: ${date.toLocaleTimeString()}`;
+            
+            // Update CPU
+            const cpuUsage = metrics.cpu.usage_percent.toFixed(1);
+            document.getElementById('cpu-usage').textContent = `${cpuUsage}%`;
+            document.getElementById('cpu-progress').style.width = `${cpuUsage}%`;
+            
+            // Color code based on usage
+            const cpuProgress = document.getElementById('cpu-progress');
+            if (cpuUsage > 90) {
+                cpuProgress.className = 'progress-fill danger';
+            } else if (cpuUsage > 70) {
+                cpuProgress.className = 'progress-fill warning';
+            } else {
+                cpuProgress.className = 'progress-fill';
+            }
+            
+            if (metrics.cpu.temperature !== null) {
+                document.getElementById('cpu-temp').textContent = 
+                    `${metrics.cpu.temperature.toFixed(1)}°C`;
+            }
+            
+            document.getElementById('cpu-freq').textContent = 
+                `${metrics.cpu.frequency} MHz`;
+            
+            document.getElementById('load-avg').textContent = 
+                metrics.cpu.load_avg.map(l => l.toFixed(2)).join(' ');
+            
+            // Update Memory
+            const memPercent = (metrics.memory.used_gb / metrics.memory.total_gb * 100).toFixed(1);
+            document.getElementById('mem-usage').textContent = 
+                `${metrics.memory.used_gb.toFixed(1)} / ${metrics.memory.total_gb.toFixed(1)} GB`;
+            document.getElementById('mem-progress').style.width = `${memPercent}%`;
+            
+            // Color code memory
+            const memProgress = document.getElementById('mem-progress');
+            if (memPercent > 90) {
+                memProgress.className = 'progress-fill danger';
+            } else if (memPercent > 80) {
+                memProgress.className = 'progress-fill warning';
+            } else {
+                memProgress.className = 'progress-fill';
+            }
+            
+            document.getElementById('mem-available').textContent = 
+                `${metrics.memory.available_gb.toFixed(1)} GB`;
+            document.getElementById('mem-cache').textContent = 
+                `${metrics.memory.cache_gb.toFixed(1)} GB`;
+            document.getElementById('swap-usage').textContent = 
+                `${metrics.memory.swap_used_gb.toFixed(1)} / ${metrics.memory.swap_total_gb.toFixed(1)} GB`;
+            
+            // Update GPU (if available)
+            if (metrics.gpu && metrics.gpu.length > 0) {
+                document.getElementById('gpu-card').style.display = 'block';
+                const gpuHtml = metrics.gpu.map(gpu => `
+                    <div class="metric">
+                        <span class="metric-label">${gpu.name}</span>
+                        <span class="metric-value">${gpu.temperature}°C ${gpu.power_w}W</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">VRAM</span>
+                        <span class="metric-value">${gpu.memory_used_mb} / ${gpu.memory_total_mb} MB</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Utilization</span>
+                        <span class="metric-value">${gpu.utilization}%</span>
+                    </div>
+                `).join('');
+                document.getElementById('gpu-metrics').innerHTML = gpuHtml;
+            }
+            
+            // Update Network
+            document.getElementById('net-rx').textContent = 
+                `${metrics.network.total_rx_mb_s.toFixed(2)} MB/s`;
+            document.getElementById('net-tx').textContent = 
+                `${metrics.network.total_tx_mb_s.toFixed(2)} MB/s`;
+            
+            // Update Disks
+            const diskHtml = metrics.disks.map(disk => {
+                const usedPercent = (disk.used_gb / disk.total_gb * 100).toFixed(1);
+                return `
+                    <div class="metric">
+                        <span class="metric-label">${disk.mount_point}</span>
+                        <span class="metric-value">${disk.used_gb.toFixed(1)} / ${disk.total_gb.toFixed(1)} GB</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${usedPercent}%"></div>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('disk-metrics').innerHTML = diskHtml;
+            
+            // Update Processes
+            document.getElementById('proc-count').textContent = 
+                `${metrics.processes.total_count} / ${metrics.processes.running_count}`;
+            
+            const cpuProcs = metrics.processes.top_by_cpu.map(p => `
+                <div class="process">
+                    <span>${p.name}</span>
+                    <span>${p.cpu_percent.toFixed(1)}%</span>
+                </div>
+            `).join('');
+            document.getElementById('proc-cpu').innerHTML = cpuProcs;
+            
+            const memProcs = metrics.processes.top_by_memory.map(p => `
+                <div class="process">
+                    <span>${p.name}</span>
+                    <span>${p.memory_mb} MB</span>
+                </div>
+            `).join('');
+            document.getElementById('proc-mem').innerHTML = memProcs;
+        }
+        
+        // Start connection
+        connect();
+    </script>
+</body>
+</html>
