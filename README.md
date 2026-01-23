@@ -2,7 +2,7 @@
 
 A Linux distribution that detects your hardware and applies specific optimizations automatically. Based on Ubuntu 24.04 LTS.
 
-> **Status: Alpha (v0.1.0)** — Framework complete, tested on one machine. No ISO releases yet.
+> **Status: Alpha (v0.2.0)** — Major Rust components added, real-time monitoring, web dashboard. Framework complete, tested on limited hardware.
 
 ## The Problem
 
@@ -39,50 +39,71 @@ On first boot, HecateOS runs `hardware-detector.sh` which:
 
 **Kernel** — `mitigations=off` for ~10% perf gain (configurable), `intel_pstate=active`, IOMMU, PCIe ASPM off
 
-## Tested Hardware
+## Hardware Support
 
-Actually tested on:
+### Tested on:
 - Intel Core i9-13900K
 - NVIDIA RTX 4090
 - 128GB DDR5-6400
 - Samsung 990 PRO NVMe
 
-Should work on (detection logic exists but untested):
-- Intel 10th gen+
-- AMD Ryzen (Zen 2+)
-- NVIDIA GTX 10 series+
-- AMD GPUs (basic support)
-- 8GB-512GB RAM
-- Any NVMe/SATA SSD/HDD
+### Supported (2026 drivers included):
+- **NVIDIA**: RTX 50 series (5090, 5080, 5070), RTX 40/30/20 series, GTX 16/10 series
+- **AMD**: RX 8000/9000 series (upcoming), RX 7000/6000 series
+- **Intel**: Arc B-series, Arc A-series
+- **CPUs**: Intel 10th gen+, AMD Zen 2+
+- **Memory**: 8GB-512GB RAM
+- **Storage**: NVMe Gen5/4/3, SATA SSD/HDD
 
-## Project Structure
+## New in v0.2.0: Rust System Components
 
-```
-hecate-os/
-├── bin/                        # CLI tools (hecate-*)
-│   ├── hecate                  # Main dispatcher
-│   ├── hecate-info             # System info and status
-│   ├── hecate-update           # Update system + migrations
-│   ├── hecate-optimize         # Re-apply optimizations
-│   ├── hecate-driver           # GPU driver management
-│   └── hecate-migrate          # Run pending migrations
-├── scripts/
-│   ├── hardware-detector.sh    # Detects and profiles hardware
-│   ├── apply-optimizations.sh  # Applies profile-specific tuning
-│   ├── hecate-driver-installer.sh  # GPU driver selection
-│   └── hecate-benchmark.sh     # Performance testing
-├── migrations/                 # Timestamped migration scripts
-├── config/
-│   ├── package-lists/          # Packages to install
-│   ├── includes.chroot/        # System configs (sysctl, GRUB, docker)
-│   └── hooks/                  # Build-time scripts
-├── Dockerfile.build            # Docker build environment
-└── build.sh                    # Main build script
-```
+HecateOS now includes high-performance Rust components for critical system functions:
 
-## CLI Commands
+### Core Components
 
-After installation, HecateOS provides the `hecate` command:
+- **hecate-monitor** - Real-time system monitoring server
+  - WebSocket server on port 3000
+  - Browser-based dashboard at http://localhost:3000
+  - Streams CPU, memory, GPU, disk, network metrics
+  
+- **hecate-cli** - Advanced system management CLI
+  ```bash
+  hecate info          # System information with JSON/YAML export
+  hecate monitor       # Real-time monitoring in terminal
+  hecate gpu power     # GPU power management
+  hecate benchmark     # Run comprehensive benchmarks
+  hecate health        # System health check
+  ```
+
+- **hecate-bench** - Comprehensive benchmark suite
+  ```bash
+  hecate-bench all           # Run all benchmarks
+  hecate-bench cpu           # CPU performance tests
+  hecate-bench gpu           # GPU compute tests
+  hecate-bench ai            # AI/ML workload tests
+  hecate-bench stress        # Stress testing
+  ```
+
+- **hecate-pkg** - Modern package manager
+  ```bash
+  hecate-pkg install <package>   # Install with dependency resolution
+  hecate-pkg search <query>      # Search packages
+  hecate-pkg update              # Update all packages
+  hecate-pkg sync                # Sync repositories
+  ```
+
+### Web Dashboard
+
+Access the monitoring dashboard at http://localhost:3000 after starting `hecate-monitor`:
+- Real-time system metrics
+- GPU power management
+- Process monitoring
+- Network activity tracking
+- Built with Next.js and Shadcn UI
+
+## Shell CLI Commands
+
+Original shell-based commands still available:
 
 ```bash
 hecate info          # Show system info and applied optimizations
@@ -90,7 +111,6 @@ hecate update        # Update system packages and run migrations
 hecate optimize      # Re-detect hardware and apply optimizations
 hecate driver        # Manage GPU drivers (status/install/remove)
 hecate migrate       # Run pending migrations
-hecate benchmark     # Run performance benchmark
 ```
 
 ## Building
