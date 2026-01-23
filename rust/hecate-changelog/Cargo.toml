@@ -1,0 +1,20 @@
+[package]
+name = "hecate-changelog"
+version = "0.1.0"
+edition = "2021"
+authors = ["HecateOS Team"]
+license = "MIT"
+description = "HecateOS changelog generator"
+
+[[bin]]
+name = "hecate-changelog"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = { workspace = true }
+clap = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = "0.4"
+regex = "1.10"
+colored = "2.1"
