@@ -1,0 +1,18 @@
+[package]
+name = "hecate-gpu"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Biblioteca para controlar GPUs NVIDIA
+nvml-wrapper = "0.9"  
+# Para trabajar con async
+tokio = { version = "1.35", features = ["full"] }
+# Para serializar datos a JSON
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+# Manejo de errores
+anyhow = "1.0"
+thiserror = "1.0"
+# Logging
+tracing = "0.1"
