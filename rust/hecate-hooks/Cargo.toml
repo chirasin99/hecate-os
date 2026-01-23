@@ -1,0 +1,17 @@
+[package]
+name = "hecate-hooks"
+version = "0.1.0"
+edition = "2021"
+authors = ["HecateOS Team"]
+license = "MIT"
+description = "HecateOS git hooks manager"
+
+[[bin]]
+name = "hecate-hooks"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = { workspace = true }
+clap = { workspace = true }
+colored = "2.1"
+regex = "1.10"
