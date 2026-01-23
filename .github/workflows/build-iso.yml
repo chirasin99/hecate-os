@@ -1,16 +1,20 @@
-name: Build HecateOS ISO
+name: CI Pipeline
 
 on:
   push:
     branches: [ main ]
-    tags:
-      - 'v*'
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.gitignore'
   pull_request:
     branches: [ main ]
+  release:
+    types: [created]
   workflow_dispatch:
     inputs:
-      use_docker:
-        description: 'Use Docker-based build'
+      build_iso:
+        description: 'Build full ISO (slow)'
         type: boolean
         default: false
 
@@ -18,13 +22,14 @@ env:
   DEBIAN_FRONTEND: noninteractive
 
 jobs:
-  lint:
-    name: Lint Shell Scripts
+  # Fast checks that run on every push
+  quick-checks:
+    name: Quick Validation
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
 
-    - name: Run ShellCheck
+    - name: Shell Script Linting
       uses: ludeeus/action-shellcheck@master
       with:
         scandir: '.'
@@ -35,24 +40,154 @@ jobs:
           .build
         severity: error
 
-  build:
-    name: Build ISO
-    runs-on: ubuntu-24.04
-    needs: lint
+    - name: Dockerfile Linting
+      uses: hadolint/hadolint-action@v3.1.0
+      with:
+        dockerfile: Dockerfile.build
+        failure-threshold: error
 
+    - name: YAML Validation
+      run: |
+        python3 -m pip install pyyaml
+        for file in .github/workflows/*.yml; do
+          echo "Validating $file"
+          python3 -c "import yaml; yaml.safe_load(open('$file'))"
+        done
+
+    - name: Check Version File
+      run: |
+        if [ ! -f VERSION ]; then
+          echo "VERSION file missing"
+          exit 1
+        fi
+        VERSION=$(cat VERSION | tr -d '[:space:]')
+        echo "Version: $VERSION"
+        if ! echo "$VERSION" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)?$'; then
+          echo "Invalid version format"
+          exit 1
+        fi
+
+  # Rust components testing
+  rust-tests:
+    name: Rust Components
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'push' || 
+      github.event_name == 'pull_request'
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+        override: true
+        components: rustfmt, clippy
+
+    - name: Cache Cargo
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+          rust/target/
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cargo-
+
+    - name: Format Check
+      run: cd rust && cargo fmt -- --check
+
+    - name: Clippy
+      run: cd rust && cargo clippy -- -D warnings
+
+    - name: Tests
+      run: cd rust && cargo test
+
+    - name: Build
+      run: cd rust && cargo build --release
+
+    - name: Upload Rust Binaries
+      uses: actions/upload-artifact@v4
+      with:
+        name: rust-binaries
+        path: rust/target/release/hecate-*
+        retention-days: 7
+
+  # Container image build (fast, cached)
+  container-build:
+    name: Container Image Build
+    runs-on: ubuntu-latest
+    needs: [quick-checks, rust-tests]
+    if: >
+      github.event_name == 'push' ||
+      github.event_name == 'workflow_dispatch'
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Download Rust Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: rust-binaries
+        path: rust/target/release/
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build Container Image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: build-fast/Containerfile
+        push: true
+        tags: |
+          ghcr.io/${{ github.repository }}/hecate-os:latest
+          ghcr.io/${{ github.repository }}/hecate-os:${{ github.sha }}
+        cache-from: type=registry,ref=ghcr.io/${{ github.repository }}/hecate-os:buildcache
+        cache-to: type=registry,ref=ghcr.io/${{ github.repository }}/hecate-os:buildcache,mode=max
+        platforms: linux/amd64
+
+  # ISO build - ONLY on releases or manual trigger
+  build-iso:
+    name: Build ISO (Full)
+    runs-on: ubuntu-latest
+    needs: [quick-checks, rust-tests]
+    if: >
+      github.event_name == 'release' ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.build_iso == 'true')
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
-    - name: Set up build environment
-      if: ${{ !inputs.use_docker }}
+    - name: Download Rust Binaries
+      uses: actions/download-artifact@v4
+      with:
+        name: rust-binaries
+        path: rust/target/release/
+
+    - name: Make binaries executable
+      run: chmod +x rust/target/release/hecate-*
+
+    - name: Setup build environment
       run: |
         sudo apt-get update
         sudo apt-get install -y \
-          live-build \
-          debootstrap \
+          mmdebstrap \
+          arch-test \
+          qemu-user-static \
           squashfs-tools \
           xorriso \
           isolinux \
@@ -62,37 +197,25 @@ jobs:
           grub-efi-amd64-signed \
           shim-signed \
           mtools \
-          dosfstools
+          dosfstools \
+          apt-cacher-ng
+        
+        # Start apt-cacher for faster builds
+        sudo systemctl start apt-cacher-ng
 
     - name: Cache packages
       uses: actions/cache@v4
       with:
-        path: cache/
-        key: ${{ runner.os }}-packages-${{ hashFiles('config/package-lists/*.list.chroot') }}
+        path: build-fast/cache/
+        key: ${{ runner.os }}-iso-packages-${{ hashFiles('config/package-lists/*.list.chroot') }}
         restore-keys: |
-          ${{ runner.os }}-packages-
+          ${{ runner.os }}-iso-packages-
 
-    - name: Build ISO (Native)
-      if: ${{ !inputs.use_docker }}
-      run: sudo ./build.sh build
-
-    - name: Build ISO (Docker)
-      if: ${{ inputs.use_docker }}
+    - name: Build ISO with mmdebstrap (fast)
       run: |
-        docker build -f Dockerfile.build -t hecate-builder .
-        docker run --rm --privileged \
-          -v $(pwd):/build \
-          -v $(pwd)/iso:/build/iso \
-          hecate-builder build
-
-    - name: Generate checksums
-      run: |
-        cd iso/
-        for iso in *.iso; do
-          [ -f "$iso" ] || continue
-          sha256sum "$iso" > "$iso.sha256"
-          md5sum "$iso" > "$iso.md5"
-        done
+        cd build-fast
+        chmod +x *.sh
+        sudo ./build-mmdebstrap.sh
 
     - name: Upload ISO artifact
       uses: actions/upload-artifact@v4
@@ -102,15 +225,16 @@ jobs:
           iso/*.iso
           iso/*.sha256
           iso/*.md5
-        retention-days: 14
+        retention-days: 30
         compression-level: 0
 
+  # Release job
   release:
     name: Create Release
     runs-on: ubuntu-latest
-    needs: build
-    if: startsWith(github.ref, 'refs/tags/')
-
+    needs: build-iso
+    if: github.event_name == 'release'
+    
     permissions:
       contents: write
 
@@ -124,18 +248,46 @@ jobs:
         name: hecate-os-${{ github.sha }}
         path: iso/
 
-    - name: Get version from tag
-      id: version
-      run: echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-
-    - name: Create GitHub Release
+    - name: Upload Release Assets
       uses: softprops/action-gh-release@v2
       with:
-        name: HecateOS ${{ steps.version.outputs.version }}
-        draft: false
-        prerelease: ${{ contains(github.ref, 'alpha') || contains(github.ref, 'beta') || contains(github.ref, 'rc') }}
-        generate_release_notes: true
         files: |
           iso/*.iso
           iso/*.sha256
           iso/*.md5
+
+  # Status check
+  status:
+    name: CI Status
+    runs-on: ubuntu-latest
+    needs: [quick-checks, rust-tests, container-build]
+    if: always()
+    steps:
+    - name: Summary
+      run: |
+        echo "## CI Pipeline Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        if [ "${{ needs.quick-checks.result }}" == "success" ]; then
+          echo "✅ Quick checks passed" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ Quick checks failed" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        if [ "${{ needs.rust-tests.result }}" == "success" ]; then
+          echo "✅ Rust tests passed" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ Rust tests failed" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        if [ "${{ needs.container-build.result }}" == "success" ]; then
+          echo "✅ Container image built" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ Container build failed" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Notes" >> $GITHUB_STEP_SUMMARY
+        echo "- ISO builds only run on releases or manual trigger" >> $GITHUB_STEP_SUMMARY
+        echo "- Container images are cached for fast rebuilds" >> $GITHUB_STEP_SUMMARY
+        echo "- Test locally first with: \`build-fast/test-local.sh\`" >> $GITHUB_STEP_SUMMARY
