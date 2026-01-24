@@ -1,18 +1,61 @@
 [package]
 name = "hecate-gpu"
-version = "0.1.0"
-edition = "2021"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Advanced GPU management library for HecateOS"
+keywords = ["gpu", "nvidia", "amd", "management", "monitoring"]
+categories = ["hardware-support", "system"]
 
 [dependencies]
-# Biblioteca para controlar GPUs NVIDIA
-nvml-wrapper = "0.9"  
-# Para trabajar con async
-tokio = { version = "1.35", features = ["full"] }
-# Para serializar datos a JSON
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-# Manejo de errores
-anyhow = "1.0"
-thiserror = "1.0"
-# Logging
-tracing = "0.1"
+# GPU APIs  
+nvml-wrapper = { version = "0.9", optional = true }  # NVIDIA management
+# AMD GPU support via sysfs parsing (no external dependencies needed)
+
+# Core async and serialization
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+# Error handling
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+
+# Logging and tracing
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+
+# System interaction
+nix = { workspace = true }
+libc = { workspace = true }
+
+# Async utilities
+async-trait = { workspace = true }
+futures = { workspace = true }
+
+# Configuration
+toml = "0.8"
+
+# Process management
+which = "6.0"
+regex = "1.10"
+
+# Time handling
+chrono = { version = "0.4", features = ["serde"] }
+
+[dev-dependencies]
+proptest = "1.4"
+criterion = { version = "0.5", features = ["html_reports"] }
+tempfile = "3.8"
+
+[features]
+default = ["nvidia", "amd"]
+nvidia = ["nvml-wrapper"]
+amd = []  # Uses sysfs parsing, no external deps
+testing = []
+
+[[bench]]
+name = "gpu_operations"
+harness = false
