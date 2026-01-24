@@ -10,6 +10,9 @@ members = [
     "hecate-changelog",
     "hecate-deps",
     "hecate-arch",
+    "hecate-bench",
+    "hecate-monitor",
+    "hecate-ml",
 ]
 resolver = "2"
 
@@ -50,7 +53,6 @@ codegen-units = 1
 strip = true
 panic = "abort"
 
-[profile.release-native]
-inherits = "release"
-# Optimize for the specific CPU architecture
-rustflags = ["-C", "target-cpu=native"]
+# Custom release profile for native CPU optimization
+# Note: rustflags in profiles is unstable, use RUSTFLAGS environment variable instead
+# Example: RUSTFLAGS="-C target-cpu=native" cargo build --release
