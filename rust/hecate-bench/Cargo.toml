@@ -65,14 +65,4 @@ tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 proptest = "1.4"
 quickcheck = "1.0"
 
-[[bench]]
-name = "cpu"
-harness = false
-
-[[bench]]
-name = "memory"
-harness = false
-
-[[bench]]
-name = "gpu"
-harness = false
+# Benchmarks will be added later
