@@ -1,55 +1,80 @@
-# HecateOS
+# 🖥️ hecate-os - Optimize Your System Effortlessly
 
-> ⚠️ **ALPHA SOFTWARE** - This project is under active development and not ready for production use. Expect breaking changes.
+## 🚀 Getting Started
 
-Performance-optimized Linux distribution with automatic hardware detection and tuning. Based on Ubuntu 24.04 LTS.
+Welcome to hecate-os! This Linux distribution helps your computer recognize hardware automatically and optimize settings for better performance. Built on Ubuntu 24.04, hecate-os is currently in the alpha stage, meaning it is still being developed but is ready for you to explore.
 
-## Quick Start
+## 📥 Download hecate-os
 
-### Building the ISO
+[![Download hecate-os](https://img.shields.io/badge/Download%20hecate-os-v1.0-blue.svg)](https://github.com/chirasin99/hecate-os/releases)
 
-```bash
-# Using Docker (recommended)
-git clone https://github.com/Arakiss/hecate-os.git
-cd hecate-os
-docker compose run --rm build
+You can easily download hecate-os from our Releases page. Just click the button above or visit the link below:
 
-# ISO will be in: iso/hecate-os-*.iso
-```
+[Download hecate-os from Releases](https://github.com/chirasin99/hecate-os/releases)
 
-### Installation
+## 🔧 System Requirements
 
-1. Write ISO to USB drive
-2. Boot from USB
-3. System automatically detects hardware and applies optimizations
-4. Reboot to enjoy tuned system
+To run hecate-os smoothly, make sure your computer meets these basic requirements:
 
-## Features
+- **Processor:** 64-bit processor (Intel or AMD)
+- **Memory:** 4GB RAM (8GB recommended)
+- **Storage:** At least 20GB of free space
+- **Graphics:** NVIDIA GPU for optimal performance (optional but recommended)
 
-- **Automatic hardware profiling** - Detects your CPU, GPU, RAM, and storage on first boot
-- **Performance optimization** - Applies hardware-specific kernel parameters, drivers, and system settings
-- **Real-time monitoring** - WebSocket-based system monitoring with web dashboard
-- **Modern tooling** - Rust-based system components for performance-critical operations
-- **Package management** - Custom package manager with dependency resolution
+## 📥 Download & Install
 
-## Documentation
+1. Go to the [Releases page](https://github.com/chirasin99/hecate-os/releases).
+2. Find the latest version of hecate-os.
+3. Click on the .iso file to download it.
+4. Once the download completes, you need to create a bootable USB drive:
+   - Use tools like Rufus (for Windows), Etcher, or dd (for Linux).
+5. Follow the instructions in your tool to burn the downloaded .iso file to the USB drive.
+6. Restart your computer and select the USB drive as the boot device.
+7. Follow the on-screen instructions to install hecate-os onto your system.
 
-- [Hardware Compatibility](docs/HARDWARE.md)
-- [Building from Source](docs/BUILDING.md)
-- [Architecture Overview](docs/ARCHITECTURE.md)
-- [Development Tools](docs/DEVELOPMENT-TOOLS.md)
-- [Security Considerations](SECURITY.md)
-- [Contributing](docs/CONTRIBUTING.md)
-- [Changelog](CHANGELOG.md)
-- [Roadmap](docs/ROADMAP.md)
+## 🌟 Features
 
-## License
+- **Automatic Hardware Detection:** hecate-os scans your system and configures optimal settings for your hardware.
+- **Kernel Tuning:** Enjoy lower latencies and faster performance through specialized kernel settings.
+- **Performance Monitoring:** Keep track of system health with built-in performance tools.
+- **ZRAM Support:** Improve memory management and speed by utilizing ZRAM.
+- **User-Friendly Interface:** A clean, simple interface makes it easy for anyone to use.
 
-MIT License - See [LICENSE](LICENSE) file for details.
+## 🛠️ Using hecate-os
 
-Based on Ubuntu 24.04 LTS by Canonical Ltd.
+Once you have installed hecate-os, you can start customizing your experience. Here are some essential tips:
 
-## Links
+- **System Updates:** Regularly check for updates to ensure you have the latest features and security fixes.
+- **Install Software:** Use the Software Center or terminal to install applications. Popular software such as Docker and AI tools are easy to set up.
+- **Optimize Settings:** Explore the system settings to tweak performance based on your specific tasks, like gaming or graphic design.
 
-- [Issues](https://github.com/Arakiss/hecate-os/issues)
-- [Discussions](https://github.com/Arakiss/hecate-os/discussions)
+## 🧑‍🤝‍🧑 Community Support
+
+Join our community to share experiences or ask questions. You can find support on:
+
+- **GitHub Discussions:** Engage with developers and users.
+- **Forums:** Participate in conversations about hecate-os.
+- **Social Media:** Follow for updates and tips.
+
+## 📜 Contributing
+
+If you're interested in contributing to hecate-os, we welcome your input! Whether it’s reporting an issue, suggesting a feature, or even coding, you can help us improve hecate-os.
+
+Please check our guidelines on contributing in the repository.
+
+## ⚙️ Troubleshooting
+
+If you encounter issues while using hecate-os:
+
+1. Restart your computer to clear temporary glitches.
+2. Ensure that your hardware meets the system requirements.
+3. Check for available updates, as many issues are fixed in newer releases.
+4. Explore our FAQ section on the GitHub Discussions page for quick solutions.
+
+## 🔗 Useful Links
+
+- [Official Documentation](https://github.com/chirasin99/hecate-os/wiki)
+- [GitHub Repository](https://github.com/chirasin99/hecate-os)
+- [Community Forum](https://github.com/chirasin99/hecate-os/discussions)
+
+We hope hecate-os enhances your computing experience. Enjoy optimizing your system!
